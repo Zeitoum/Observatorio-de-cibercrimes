@@ -1,0 +1,117 @@
+<div class="page-bg">
+  <div class="page-container">
+    <div class="content-card">
+      <!-- Toolbar com busca + page size -->
+      <div class="toolbar">
+        <div class="search-box">
+          <input
+            type="text"
+            class="search-input"
+            [(ngModel)]="termoBusca"
+            placeholder="Buscar por ID, Classe, Assunto ou Relator"
+            (keyup.enter)="onSearch()"
+          />
+          <button class="btn primary" (click)="onSearch()">Buscar</button>
+          <button class="btn ghost" *ngIf="termoBusca" (click)="clearSearch()">Limpar</button>
+        </div>
+
+        <div class="toolbar-right">
+          <label for="pageSize">Itens por página</label>
+          <select id="pageSize" [(ngModel)]="itensPorPagina" (change)="onPageSizeChange()">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+            <option [ngValue]="50">50</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Estados -->
+      <div *ngIf="carregando" class="loading">Carregando...</div>
+      <div *ngIf="!carregando && erro" class="error-msg">{{ erro }}</div>
+
+      <!-- Tabela -->
+      <div class="table-wrap" *ngIf="!carregando && !erro">
+        <table class="table table-bordered responsive">
+          <thead>
+            <tr>
+              <th>ID Processo</th>
+              <th>Classe</th>
+              <th>Assunto</th>
+              <th>Relator</th>
+              <th>Comarca</th>
+              <th>Órgão Julgador</th>
+              <th>Data Julgamento</th>
+              <th>Data Publicação</th>
+              <th>Ementa</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let crime of cibercrimes; trackBy: trackById">
+              <td data-label="ID Processo">{{ crime.processCode }}</td>
+              <td data-label="Classe">{{ crime.className }}</td>
+              <td data-label="Assunto">{{ crime.subject }}</td>
+              <td data-label="Relator">{{ crime.rapporteur }}</td>
+              <td data-label="Comarca">{{ crime.district }}</td>
+              <td data-label="Órgão Julgador">{{ crime.judgingBody }}</td>
+              <td data-label="Data Julgamento">{{ crime.judgmentDate | date:'dd/MM/yyyy' }}</td>
+              <td data-label="Data Publicação">{{ crime.publishDate | date:'dd/MM/yyyy' }}</td>
+
+              <td data-label="Ementa">
+                <ng-container *ngIf="!isExpanded(crime.id)">
+                  {{ crime.headnote | slice:0:220 }}
+                  <ng-container *ngIf="headnoteLen(crime.headnote) > 220">…</ng-container>
+                  <button class="btn-link" *ngIf="headnoteLen(crime.headnote) > 220"
+                          (click)="toggleEmenta(crime.id)">
+                    Ver mais
+                  </button>
+                </ng-container>
+
+                <ng-container *ngIf="isExpanded(crime.id)">
+                  {{ crime.headnote }}
+                  <button class="btn-link" (click)="toggleEmenta(crime.id)">Ver menos</button>
+                </ng-container>
+              </td>
+
+              <td data-label="PDF">
+                <a *ngIf="crime['pdfUrl']"
+                   [href]="crime['pdfUrl']"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Abrir PDF">
+                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#E11D48"/>
+                    <path d="M14 2v6h6" fill="#FB7185"/>
+                    <text x="12" y="16.8" text-anchor="middle" font-size="7" font-weight="700" fill="#fff">PDF</text>
+                  </svg>
+                </a>
+              </td>
+            </tr>
+
+            <tr *ngIf="!cibercrimes.length">
+              <td colspan="10" class="empty">Nenhum processo encontrado.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginação + info -->
+      <div class="pagination-row" *ngIf="!carregando && !erro && totalItems > 0">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [(page)]="paginaAtual"
+          [pageSize]="itensPorPagina"
+          [maxSize]="5"
+          (pageChange)="onPageChange($event)"
+          aria-label="Paginação">
+        </ngb-pagination>
+
+        <div class="list-info">
+          Mostrando {{ (paginaAtual - 1) * itensPorPagina + 1 }} –
+          {{ min(paginaAtual * itensPorPagina, totalItems) }} de {{ totalItems }} cibercrimes
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,155 @@
+<div class="page-bg" [class.dark]="isDark">
+  <div *ngIf="!loading && !error" class="dashboard-container">
+    <!-- MAPA -->
+    <div class="chart-card full-width">
+      <div class="card-header">
+        <h2>Mapa de Calor • Estado de {{ state.name }}</h2>
+        <div class="actions">
+          <!-- seletor de estado -->
+          <div class="state-selector">
+            <label for="state">Estado:</label>
+            <select id="state" [(ngModel)]="selectedStateUf" (change)="onStateChange()">
+              <option *ngFor="let s of states" [ngValue]="s.uf" [disabled]="!s.ready">
+                {{ s.name }}{{ s.ready ? '' : ' (em breve)' }}
+              </option>
+            </select>
+          </div>
+
+          <button class="theme-btn" (click)="toggleTheme()">
+            {{ isDark ? 'Modo Claro' : 'Modo Escuro' }}
+          </button>
+
+          <div class="year-selector">
+            <label for="year-map">Ano:</label>
+            <select id="year-map" [(ngModel)]="selectedYear" (change)="onYearChange()">
+              <option *ngFor="let y of years" [ngValue]="y">{{ y }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div echarts [options]="mapChartOptions" [initOpts]="initOpts" class="chart map-chart"></div>
+
+      <!-- LEGENDA CUSTOM DO MAPA -->
+      <div class="map-legend" *ngIf="legend">
+        <h4>Legenda</h4>
+        <ul class="legend-list">
+          <li class="legend-item" *ngIf="legend.highMin">
+            <span class="swatch" [style.background]="COLORS.high"></span>
+            <span class="label">Alto (≥ {{ legend.highMin }})</span>
+          </li>
+          <li class="legend-item" *ngIf="legend.mhMin && legend.mhMax">
+            <span class="swatch" [style.background]="COLORS.midHi"></span>
+            <span class="label">Médio-alto ({{ legend.mhMin }}–{{ legend.mhMax }})</span>
+          </li>
+          <li class="legend-item" *ngIf="legend.midMin && legend.midMax">
+            <span class="swatch" [style.background]="COLORS.mid"></span>
+            <span class="label">Médio ({{ legend.midMin }}–{{ legend.midMax }})</span>
+          </li>
+          <li class="legend-item" *ngIf="legend.lowMax">
+            <span class="swatch" [style.background]="COLORS.low"></span>
+            <span class="label">
+              Baixo
+              <ng-container *ngIf="legend.lowMax === 1">(1)</ng-container>
+              <ng-container *ngIf="legend.lowMax > 1">(1–{{ legend.lowMax }})</ng-container>
+            </span>
+          </li>
+          <li class="legend-item">
+            <span class="swatch" [style.background]="COLORS.none"></span>
+            <span class="label">Sem casos (0)</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BARRAS (metade) -->
+    <div class="chart-card half">
+      <h2>Crimes por Ano</h2>
+      <div echarts [options]="barChartOptions" [initOpts]="initOpts" class="chart"></div>
+    </div>
+
+    <!-- PIZZA (metade) -->
+    <div class="chart-card half">
+      <div class="card-header">
+        <h2>Tipos de Crime — {{selectedYear}}</h2>
+      </div>
+      <div echarts [options]="pieChartOptions" [initOpts]="initOpts" class="chart"></div>
+    </div>
+
+    <!-- RANKING (full) -->
+    <div class="chart-card full-width">
+      <h2>Top {{topN}} Assuntos — {{selectedYear}}</h2>
+      <div echarts [options]="rankChartOptions" [initOpts]="initOpts" class="chart"></div>
+    </div>
+
+    <!-- SOBRE O PROJETO -->
+    <div id="sobre" class="chart-card full-width info-section">
+      <h2>Sobre o projeto</h2>
+
+      <ul class="info-kpis">
+        <li>
+          <span class="kpi-label">Processos analisados</span>
+          <span class="kpi-value">{{ crimesData.length }}</span>
+        </li>
+        <li>
+          <span class="kpi-label">Período coberto</span>
+          <span class="kpi-value">
+            {{ years.length ? (years[0] + '–' + years[years.length - 1]) : '—' }}
+          </span>
+        </li>
+        <li>
+          <span class="kpi-label">Ano selecionado</span>
+          <span class="kpi-value">{{ selectedYear }}</span>
+        </li>
+      </ul>
+
+      <div class="info-grid">
+        <article class="info-card">
+          <h3>O que é um cibercrime?</h3>
+          <p>
+            Neste painel, tratamos como <strong>cibercrimes</strong> os processos
+            cuja conduta foi praticada, facilitada ou teve como alvo
+            sistemas, redes ou dados no ambiente digital (por exemplo: fraudes on-line,
+            invasões, crimes contra dispositivos, entre outros).
+          </p>
+        </article>
+
+        <article class="info-card">
+          <h3>Fontes e tratamento de dados</h3>
+          <ul>
+            <li>Dados públicos de decisões judiciais obtidos pela API.</li>
+            <li>Para o mapa, normalizamos nomes de municípios (remoção de acentos e variações)
+                para casar com o GeoJSON do Estado de SP.</li>
+            <li>Período exibido: calculado dinamicamente a partir das datas nos registros.</li>
+          </ul>
+        </article>
+
+        <article class="info-card">
+          <h3>Como ler o mapa</h3>
+          <p>
+            Cada município recebe uma cor de acordo com o número de processos no ano
+            selecionado. As faixas são calculadas automaticamente (com degraus 1, 2, 3, 4
+            quando os números são baixos; e percentis quando são maiores), garantindo
+            intervalos sem sobreposição.
+          </p>
+          <details>
+            <summary>Saiba mais</summary>
+            <p>
+              Quando o maior valor do mapa ≤ 4, usamos faixas exatas (1, 2, 3 e ≥4).
+              Acima disso, usamos cortes aproximados de 25%, 50% e 75% para criar
+              “Baixo”, “Médio”, “Médio-alto” e “Alto”.
+            </p>
+          </details>
+        </article>
+
+        <article class="info-card">
+          <h3>Privacidade & Ética</h3>
+          <p>
+            Exibimos apenas dados públicos agregados, sem dados pessoais sensíveis.
+            O objetivo é informar e apoiar pesquisas, não identificar indivíduos.
+          </p>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>

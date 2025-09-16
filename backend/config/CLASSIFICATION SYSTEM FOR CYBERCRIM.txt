@@ -1,0 +1,54 @@
+CLASSIFICATION SYSTEM FOR CYBERCRIME OFFENCES
+The previous section stressed the need for a comprehensive classification of the cybercrime offences in order
+to understand, classify, and combat particular incidents.
+According to [47], the Convention on Cybercrime is the most
+important and comprehensive international instrument aiming
+to facilitate worldwide cooperation and establish a common
+basis for substantive and procedural law. Toward the same
+direction, Yuanrong et al. [48] emphasizes the importance
+of cooperate actions by policy makers to minimize differences and to recognize the existing legislative defects. This
+section introduces an offence classification system based on
+two levels. The first level consists of the four different
+types of cybercrime offences introduced in the Convention on
+Cybercrime [10] with the authors’ addition of a new type:
+the combinational offences. For each level-1 offence type,
+there are level-2 subcategories based on further analysis by
+Gercke [49]. The authors propose this two-level consolidation
+of cybercrime offence along with appropriate modifications
+and updates in order to provide a comprehensive cybercrime
+offence classification system. The level-1 classification of
+cybercrime offences provides a set of five generic categories
+or types as follows.
+1) Type A (Offences Against the Confidentiality, Integrity
+and Availability of Computer Data and Systems): Type
+A includes the core of computer-related offences,
+offences against the confidentiality, integrity and availability of computer data and systems, representing the
+major threats, as identified in the discussions on computer and data security to which electronic data processing and communicating systems are exposed [12]. The
+types of crime covered are mostly unauthorized access
+and illicit tampering with systems, programs or data.
+2) Type B (Computer-Related Offences): Type B includes
+cybercrime offences in which computer and telecommunication systems are used as the method to attack
+specific legal interests that are mostly protected already
+by criminal law against attacks using traditional means.
+Computer-related fraud and forgery have been added
+by the following suggestions in the guidelines of the
+Council of Europe Recommendation No. R (89) 9 [50].
+3) Type C (Content-Related Offences): This type encompasses the offences that require the use of computer
+systems as a medium and entail abusive content. It
+includes sexual exploitation of children, illegal pornography, religious offences, and cyberbullying, offences
+with content considered abusive for most western
+countries.
+4) Type D (Offences Related to Infringements of Copyright
+and Related Rights): This type of offences was
+included in the Convention Treaty [10] because
+copyright infringements are one of the most
+widespread forms of computer- or computer-related
+crime and its escalation is causing international
+concern.
+5) Type E (Combinational Offences): Due to increasing
+law enforcement collaboration and public concern-alert,
+offenders improvise and progress their methods in order
+to maintain their effectiveness. Criminal activities such  as cyber laundering, phishing and terrorist use of the
+Internet cover acts that combine a number of different
+offences in sole acts, which necessitates the introduction
+of this category.

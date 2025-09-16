@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: cyber_crimes_db
+    environment:
+      POSTGRES_USER: cyber_crimes_tracker_user
+      POSTGRES_PASSWORD: m034snfl*a23@_3325ka
+      POSTGRES_DB: cyber_crimes_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local

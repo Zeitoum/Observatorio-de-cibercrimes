@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+bootJar {
+    enabled = false
+}
+
+group = 'br.com.vitor.cybercrimes.tracker'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':model')
+
+    implementation 'com.google.genai:google-genai:1.0.0'
+    implementation 'org.flywaydb:flyway-core:11.1.0'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

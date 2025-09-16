@@ -1,0 +1,5 @@
+rootProject.name = 'cyber-crimes-tracker'
+include 'api'
+include 'model'
+include 'core'
+

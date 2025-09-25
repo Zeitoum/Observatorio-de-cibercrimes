@@ -3,7 +3,7 @@
     <!-- MAPA -->
     <div class="chart-card full-width">
       <div class="card-header">
-        <h2>Mapa de Calor • Estado de {{ state.name }}</h2>
+        <h2>Distribuição de processos relacionados a cibercrimes • Estado de {{ state.name }}</h2>
         <div class="actions">
           <!-- seletor de estado -->
           <div class="state-selector">
@@ -135,9 +135,12 @@
           <details>
             <summary>Saiba mais</summary>
             <p>
-              Quando o maior valor do mapa ≤ 4, usamos faixas exatas (1, 2, 3 e ≥4).
-              Acima disso, usamos cortes aproximados de 25%, 50% e 75% para criar
-              “Baixo”, “Médio”, “Médio-alto” e “Alto”.
+              Quando o maior valor do mapa é menor ou igual a 4, utilizam-se faixas discretas
+              (1, 2, 3 e 4), correspondendo respectivamente aos níveis: Baixo, Médio, Médio-Alto
+               e Alto. Para valores acima de 4, as faixas passam a ser definidas proporcionalmente: até 25%
+              do valor máximo representa Baixo; de 25% a 50%, Médio; de 50% a 75%, Médio-Alto; e acima de 75%, Alto.
+              Deixando claro que as porcentagens são calculadas com base no valor máximo do mapa, e não no total de processos.
+              Por exemplo, se o valor máximo for 20, então: Baixo = 1–5, Médio = 6–10, Médio-Alto = 11–15, Alto = 16–20.
             </p>
           </details>
         </article>

@@ -353,6 +353,7 @@ export class Home implements OnInit {
         borderWidth: 0,
         textStyle: { ...this.T.text, color: this.T.tooltipTextColor }
       },
+      toolbox: { feature: { saveAsImage: {} } },
       grid: { left: 40, right: 20, bottom: 60, top: 60 },
       xAxis: {
         type: 'category',
@@ -413,6 +414,7 @@ export class Home implements OnInit {
         borderWidth: 0,
         textStyle: { ...this.T.text, color: this.T.tooltipTextColor }
       },
+      toolbox: { feature: { saveAsImage: {} } },
       legend: {
         type: 'scroll',
         orient: 'horizontal',
@@ -470,6 +472,7 @@ export class Home implements OnInit {
         borderWidth: 0,
         textStyle: { ...this.T.text, color: this.T.tooltipTextColor }
       },
+      toolbox: { feature: { saveAsImage: {} } },
       grid: { left: 160, right: 24, top: 56, bottom: 24 },
       xAxis: {
         type: 'value',

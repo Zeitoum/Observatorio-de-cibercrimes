@@ -15,10 +15,10 @@ public class LegalProcessClassifierScheduler {
 
     @Scheduled(fixedDelay = 1000) // 1 second
     public void execute() throws InterruptedException {
-        log.info("Starting Legal Process Classifier Scheduler...");
-
-        service.classifyLegalProcesses();
-
-        log.info("Legal Process classification finished !");
+//        log.info("Starting Legal Process Classifier Scheduler...");
+//
+//        service.classifyLegalProcesses();
+//
+//        log.info("Legal Process classification finished !");
     }
 }

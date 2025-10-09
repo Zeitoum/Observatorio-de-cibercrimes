@@ -82,11 +82,10 @@ public class LegalProcessClassifierService {
             boolean isCybercrime = status.equals(POSITIVE);
             ClassificationLevel2 classificationLevel2 = null;
             ClassificationLevel1 classificationLevel1 = null;
-            String justification = null;
+            String justification = parts[2].split(":")[1].replaceAll("\\*", "").trim();;
 
             if (isCybercrime) {
                 String classification = parts[1].split(":")[1].replaceAll("\\*|\\s", "");
-                justification = parts[2].split(":")[1].replaceAll("\\*", "").trim();
                 classificationLevel2 = ClassificationLevel2.valueOf(classification.toUpperCase());
                 classificationLevel1 = classificationLevel2.getClassificationLevel1();
             }
